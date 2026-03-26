@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hörpusýn — Snjallöryggi frá Bláberg</title>
+    <meta name="description" content="Hannaðu þitt eigið öryggismyndavélakerfi með Hörpusýn frá Bláberg. AI-greining, sjálfvirkar upptökur, fjaraðgangur hvar sem er.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #1b4f9d;
+            --blue-dark: #143a73;
+            --blue-light: #2563eb;
+            --blue-bright: #3b82f6;
+            --blue-glow: rgba(27, 79, 157, 0.12);
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --border-hover: #d1d5db;
+            --text: #111827;
+            --text-sec: #6b7280;
+            --text-muted: #9ca3af;
+            --green: #059669;
+            --green-bg: #ecfdf5;
+            --amber: #d97706;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            font-size: 16px;
+        }
+
+        /* HEADER */
+        .header {
+            background: #000;
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .logo-area img {
+            height: 32px;
+            width: auto;
+        }
+        .header-nav { display: flex; gap: 0.25rem; }
+        .header-nav a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .header-nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+        .header-nav a.active { color: white; background: var(--blue); }
+
+        /* HERO */
+        .sell-hero {
+            background: linear-gradient(180deg, #000 0%, #0a1628 50%, #0f2041 100%);
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .sell-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, var(--bg));
+        }
+        .sell-hero .badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 0.5rem 1.25rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--blue-bright);
+            margin-bottom: 2rem;
+            letter-spacing: 0.03em;
+        }
+        .sell-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto; margin-right: auto;
+        }
+        .sell-hero h1 .grad {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sell-hero .sub {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.55);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+        .sell-hero .cta-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+        .btn-hero {
+            padding: 1rem 2.25rem;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-hero.primary { background: var(--blue); color: white; border: none; }
+        .btn-hero.primary:hover { background: var(--blue-light); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(37,99,235,0.3); }
+        .btn-hero.ghost { background: rgba(255,255,255,0.06); color: white; border: 1px solid rgba(255,255,255,0.15); }
+        .btn-hero.ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        .product-showcase { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+        .product-img-wrap {
+            background: linear-gradient(135deg, rgba(27,79,157,0.2), rgba(37,99,235,0.1));
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .product-img-wrap img { width: 100%; max-width: 500px; border-radius: 16px; display: block; margin: 0 auto; }
+
+        /* FEATURES */
+        .features { max-width: 1200px; margin: -2rem auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
+        .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+        @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 550px) { .feature-grid { grid-template-columns: 1fr; } }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .feature-card:hover { border-color: var(--blue); box-shadow: 0 8px 30px rgba(27,79,157,0.08); transform: translateY(-2px); }
+        .feature-icon {
+            width: 52px; height: 52px;
+            margin: 0 auto 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--blue-glow);
+            border-radius: 14px;
+        }
+        .feature-icon svg { width: 26px; height: 26px; color: var(--blue); }
+        .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 0.88rem; color: var(--text-sec); line-height: 1.65; }
+
+        /* AI */
+        .ai-section { max-width: 1200px; margin: 0 auto 5rem; padding: 0 2rem; }
+        .ai-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 4rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        @media (max-width: 900px) { .ai-block { grid-template-columns: 1fr; padding: 2.5rem; gap: 2rem; } }
+        .ai-text .eyebrow { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 0.75rem; }
+        .ai-text h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+        .ai-text p { font-size: 1.05rem; color: var(--text-sec); line-height: 1.8; margin-bottom: 1.5rem; }
+        .ai-features { display: flex; flex-direction: column; gap: 0.85rem; }
+        .ai-feat { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.95rem; color: var(--text-sec); line-height: 1.5; }
+        .ai-feat .dot { width: 8px; height: 8px; background: var(--blue); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+        .ai-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .ai-stat { background: linear-gradient(135deg, #f0f4ff, #e8eeff); border: 1px solid #dbeafe; border-radius: 16px; padding: 1.75rem; text-align: center; }
+        .ai-stat .num { font-size: 2.25rem; font-weight: 900; color: var(--blue); line-height: 1; }
+        .ai-stat .label { font-size: 0.78rem; color: var(--text-sec); margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+
+        /* DESIGNER */
+        .designer-section { max-width: 1200px; margin: 0 auto 4rem; padding: 0 2rem; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+        .section-header p { color: var(--text-sec); font-size: 1.1rem; max-width: 550px; margin: 0 auto; }
+        .designer-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; }
+        @media (max-width: 1024px) { .designer-grid { grid-template-columns: 1fr; } }
+
+        .dcard { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .dcard-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-bottom: 1.25rem; }
+
+        /* Slider */
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-group:last-child { margin-bottom: 0; }
+        .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+        .slider-header .name { font-weight: 700; font-size: 1.05rem; }
+        .slider-header .val { font-size: 1.75rem; font-weight: 800; color: var(--blue); }
+        .slider-desc { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 0.85rem; }
+        input[type="range"] {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 6px; border-radius: 3px;
+            background: var(--border); outline: none; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 26px; height: 26px; border-radius: 50%;
+            background: var(--blue); cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: var(--blue); cursor: pointer;
+            border: 3px solid white;
+        }
+
+        /* Camera thumbs */
+        .cam-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin: 1rem 0; }
+        .cam-thumb {
+            width: 50px; height: 50px; border-radius: 10px;
+            border: 1px solid var(--border); overflow: hidden;
+            animation: camIn 0.2s ease-out; background: #f3f4f6;
+        }
+        .cam-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        @keyframes camIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .cam-thumb.extra { display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: var(--text-sec); background: var(--bg); }
+
+        /* Diagram */
+        .diagram { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; padding: 0.5rem 0; }
+        .d-conn { width: 2px; height: 18px; background: linear-gradient(to bottom, var(--border), var(--blue)); }
+        .d-box { padding: 0.7rem 1.25rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-align: center; min-width: 150px; }
+        .d-box.switch { background: var(--blue); color: white; }
+        .d-box.hub { background: linear-gradient(135deg, var(--blue-dark), var(--blue)); color: white; padding: 0.85rem 1.5rem; box-shadow: 0 4px 16px rgba(27,79,157,0.15); }
+        .d-box .sm { font-size: 0.7rem; opacity: 0.7; margin-top: 0.2rem; }
+        .d-cloud { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 999px; border: 1px dashed var(--border); font-size: 0.78rem; color: var(--text-sec); background: var(--bg); }
+
+        /* Locations */
+        .locations-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
+        .loc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .loc-card .loc-name { font-weight: 600; font-size: 0.95rem; }
+        .loc-card .loc-sub { font-size: 0.78rem; color: var(--text-sec); margin-top: 0.15rem; }
+        .loc-remove { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: white; color: var(--text-muted); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .loc-remove:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+        .btn-add-loc { display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.75rem; border-radius: 12px; border: 1px dashed var(--border); background: transparent; color: var(--blue); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .btn-add-loc:hover { background: var(--blue-glow); border-color: var(--blue); }
+
+        /* Toggle */
+        .toggle-row { display: flex; align-items: flex-start; gap: 0.85rem; padding: 1.15rem; background: var(--bg); border-radius: 14px; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s; margin-bottom: 0.85rem; }
+        .toggle-row:last-child { margin-bottom: 0; }
+        .toggle-row:hover { border-color: var(--border-hover); }
+        .tsw { width: 46px; height: 26px; background: #d1d5db; border-radius: 13px; position: relative; transition: background 0.2s; flex-shrink: 0; margin-top: 2px; }
+        .tsw.on { background: var(--blue); }
+        .tsw::after { content: ''; position: absolute; width: 22px; height: 22px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        .tsw.on::after { transform: translateX(20px); }
+        .t-info .t-name { font-weight: 600; font-size: 0.95rem; }
+        .t-info .t-desc { font-size: 0.82rem; color: var(--text-sec); margin-top: 0.2rem; line-height: 1.55; }
+
+        /* SIDE-BY-SIDE SUBSCRIPTION */
+        .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        @media (max-width: 900px) { .plans-grid { grid-template-columns: 1fr; } }
+        .plans-grid.disabled-plans { opacity: 0.35; pointer-events: none; filter: grayscale(0.5); transition: opacity 0.3s, filter 0.3s; }
+        ::selection { background: rgba(27,79,157,0.2); }
+        .null-toggle-row { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1rem; background:var(--bg); border:1px dashed var(--border); border-radius:10px; cursor:pointer; transition:border-color 0.2s; margin-bottom:1.25rem; }
+        .null-toggle-row:hover { border-color: var(--text-muted); }
+        .null-toggle-row.active { border-color: var(--text-muted); background: var(--surface); }
+        .null-toggle-row input[type=checkbox] { width:16px; height:16px; accent-color:var(--text-muted); cursor:pointer; flex-shrink:0; }
+        .null-toggle-label { font-size:0.85rem; font-weight:500; color:var(--text-sec); }
+        .null-toggle-desc { font-size:0.78rem; color:var(--text-muted); margin-top:0.1rem; }
+        .null-toggle-price { font-size:0.78rem; color:var(--text-muted); font-weight:500; margin-top:0.05rem; }
+
+        .plan-card {
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            background: white;
+        }
+        .plan-card:hover { border-color: var(--border-hover); }
+        .plan-card.selected { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue), 0 4px 16px rgba(27,79,157,0.1); }
+        .plan-card .plan-badge {
+            position: absolute;
+            top: -10px; right: 16px;
+            background: var(--blue);
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.2rem 0.65rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            display: none;
+        }
+        .plan-card.recommended .plan-badge { display: block; }
+        .plan-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .plan-price { font-size: 1.5rem; font-weight: 800; color: var(--blue); margin-bottom: 0.15rem; }
+        .plan-price span { font-size: 0.85rem; font-weight: 500; color: var(--text-sec); }
+        .plan-per { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+        .plan-feats { display: flex; flex-direction: column; gap: 0.6rem; }
+        .plan-feat { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.85rem; color: var(--text-sec); line-height: 1.45; }
+        .plan-feat .ck { color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .plan-feat .off { color: var(--text-muted); }
+        .plan-feat.disabled { opacity: 0.4; }
+        .plan-feat.disabled .ck { color: var(--text-muted); }
+        .plan-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px solid var(--border); line-height: 1.5; }
+
+        /* SUMMARY */
+        .summary-sticky { position: sticky; top: 72px; }
+        .sum-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 1rem; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+        .sum-head { background: var(--blue); padding: 1.25rem 1.75rem; font-weight: 700; font-size: 1rem; color: white; }
+        .sum-body { padding: 1.75rem; }
+        .sli { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; font-size: 0.92rem; }
+        .sli .l { color: var(--text-sec); }
+        .sli .a { font-weight: 700; font-variant-numeric: tabular-nums; }
+        .sli.total { border-top: 2px solid var(--border); padding-top: 0.9rem; margin-top: 0.5rem; }
+        .sli.total .l { color: var(--text); font-weight: 700; font-size: 1rem; }
+        .sli.total .a { font-size: 1.35rem; color: var(--blue); }
+        .sli.mo { border-top: 1px solid var(--border); padding-top: 0.7rem; }
+        .sli.mo .l { color: var(--amber); font-weight: 600; }
+        .sli.mo .a { color: var(--amber); }
+        .disclaimer { font-size: 0.75rem; color: var(--text-muted); line-height: 1.55; padding: 0.85rem 0 0; border-top: 1px solid var(--border); margin-top: 0.85rem; }
+
+        .cta-main { display: block; width: 100%; padding: 1.1rem; background: var(--blue); color: white; border: none; border-radius: 14px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; }
+        .cta-main:hover { background: var(--blue-light); box-shadow: 0 4px 20px rgba(27,79,157,0.25); transform: translateY(-1px); }
+        .cta-phone { display: block; text-align: center; color: var(--text-sec); font-size: 0.85rem; margin-top: 0.65rem; text-decoration: none; }
+        .cta-phone:hover { color: var(--text); }
+
+        .foot { background: #000; color: rgba(255,255,255,0.5); padding: 2.5rem; text-align: center; font-size: 0.85rem; margin-top: 4rem; }
+        .foot a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .foot a:hover { color: white; }
+
+        @media (max-width: 768px) {
+            .sell-hero { padding: 4rem 1.5rem 3rem; }
+            .ai-block { padding: 2rem; }
+            .designer-section { padding: 0 1rem; }
+            .header-nav { display: none; }
+            .designer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <a href="https://blaberg.is" class="logo-area">
+            <img src="https://blaberg.is/cdn/shop/files/logo_2023_hvitt_996x470.png?v=1675109341" alt="Bláberg" height="32">
+        </a>
+        <nav class="header-nav">
+            <a href="#features">Eiginleikar</a>
+            <a href="#ai">Greind</a>
+            <a href="#designer" class="active">Kerfishönnuður</a>
+            <a href="https://blaberg.is/products/oryggismyndavel-6mp-128gb">Verslun</a>
+        </nav>
+    </div>
+</header>
+
+<section class="sell-hero">
+    <div class="badge">HÖRPUSÝN FRÁ BLÁBERG</div>
+    <h1>Myndavélarkerfi sem <span class="grad">hugsar sjálft</span></h1>
+    <p class="sub">
+        AI-greind. Sjálfvirkar upptökur. Nútímalegt viðmót.
+        Fjaraðgangur hvar sem er — kerfið vakir þegar þú getur það ekki.
+    </p>
+
+    <div class="product-showcase">
+        <div class="product-img-wrap">
+            <img src="camera_hero.png" onerror="this.src='https://blaberg.is/cdn/shop/files/productimage3.png?v=1741258367&width=1000'" alt="Hörpusýn 6MP Myndavél">
+        </div>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+            </div>
+            <h3>AI-greining</h3>
+            <p>Greinir manneskjur, bíla og dýr sjálfvirkt. Skynjar óvenjulega atburði og tilkynnir strax.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+            </div>
+            <h3>VPN-öryggi</h3>
+            <p>Dulkóðuð tenging. Engin opin port. Aðeins tæki sem þú heimilar geta séð myndavélarnar.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>
+            </div>
+            <h3>Fjaraðgangur</h3>
+            <p>Opnaðu viðmótið hvar sem er — á fartölvu, síma eða spjaldtölvu. Enginn sérstakur hugbúnaður.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-2.625 0V5.625m0 0A1.125 1.125 0 014.5 4.5h15a1.125 1.125 0 011.125 1.125m-17.25 0h17.25m0 0v12.75M20.625 5.625V18.375m0 0c0 .621-.504 1.125-1.125 1.125m1.125-1.125h-1.5m-15 0h15m0 0H6m0 0c0 .621-.504 1.125-1.125 1.125"/></svg>
+            </div>
+            <h3>Nútímalegt viðmót</h3>
+            <p>Þægilegt vefviðmót — ekki gamaldags NVR-skjár. Skoðaðu tímalínu, atburði og stillingar í vafranum.</p>
+        </div>
+    </div>
+</section>
+
+<section class="ai-section" id="ai">
+    <div class="ai-block">
+        <div class="ai-text">
+            <div class="eyebrow">Innbyggð greind</div>
+            <h2>Sjálfvirk greining sem vakir þegar þú getur það ekki</h2>
+            <p>
+                Hörpusýn kerfið notar gervigreind til að bera kennsl á manneskjur, ökutæki og dýr —
+                beint á staðnum, án skýjaþjónustu. Kerfið keyrir sjálfstætt, allan sólarhringinn, og tilkynnir þér
+                aðeins þegar eitthvað sem skiptir máli gerist.
+            </p>
+            <div class="ai-features">
+                <div class="ai-feat"><div class="dot"></div><span>Manngreining — aðgreinir manneskjur frá dýrum, bílum og skuggum</span></div>
+                <div class="ai-feat"><div class="dot"></div><span>Atburðasaga — skoðaðu tímalínu allra atburða í nútímalegu vefviðmóti</span></div>
+                <div class="ai-feat"><div class="dot"></div><span>Sjálfvirkar tilkynningar — viðvörun þegar eitthvað óvenjulegt gerist</span></div>
+                <div class="ai-feat"><div class="dot"></div><span>Keyrir á staðnum — engin gögn fara í skýið, persónuverndarlögum er fylgt í hvívetna</span></div>
+                <div class="ai-feat"><div class="dot"></div><span>Líkanið er ekki þjálfað á þínum upptökum — fullkominn trúnaður gildir um þín gögn</span></div>
+            </div>
+        </div>
+        <div class="ai-visual">
+            <div class="ai-stat"><div class="num">24/7</div><div class="label">Sjálfvirk vöktun</div></div>
+            <div class="ai-stat"><div class="num">~4K</div><div class="label">Upplausn</div></div>
+            <div class="ai-stat"><div class="num">&lt;1s</div><div class="label">Greiningartími</div></div>
+            <div class="ai-stat"><div class="num">128GB</div><div class="label">Á hverri vél</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="designer-section" id="designer">
+    <div class="section-header">
+        <h2>Hannaðu þitt eigið kerfi</h2>
+        <p>Veldu fjölda myndavéla og staðsetninga — fáðu verðáætlun strax.</p>
+    </div>
+    <div class="designer-grid">
+        <div>
+            <!-- Cameras -->
+            <div class="dcard">
+                <div class="dcard-title">Myndavélar</div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span class="name">Hörpusýn 6MP Myndavél</span>
+                        <span class="val" id="cam-val">4</span>
+                    </div>
+                    <div class="slider-desc">128GB SD, POE, úti/inni, ~4K nætursjón · 24.990 kr / stk</div>
+                    <input type="range" min="1" max="48" value="4" id="cam-slider">
+                </div>
+            </div>
+
+            <!-- Locations -->
+            <div class="dcard">
+                <div class="dcard-title">Staðsetningar</div>
+                <p style="font-size:0.88rem; color:var(--text-sec); margin-bottom:0.75rem;" id="loc-desc">
+                    Hvert Stöðusýn tæki þjónar einni staðsetningu. Venjuleg Stöðusýn ræður við allt að 15 myndavélar með gervigreind. Fyrir stærri kerfi er boðið upp á öflugri tölvur. Staðarnetstenging og uppsetning vélbúnaðar í skáp er innifalin.
+                </p>
+                <div class="locations-grid" id="locations-grid"></div>
+                <button class="btn-add-loc" id="add-loc" style="margin-top:0.85rem;">+ Bæta við staðsetningu</button>
+            </div>
+
+            <!-- Installation (moved above subscription) -->
+            <div class="dcard">
+                <div class="dcard-title">Uppsetning myndavéla</div>
+                <div class="toggle-row" id="install-toggle">
+                    <div class="tsw" id="install-sw"></div>
+                    <div class="t-info">
+                        <span class="t-name">Bláberg setur upp myndavélar fyrir mig</span>
+                        <span class="t-desc">Áætlað uppsetningargjald er 64.990 kr / myndavél. <strong style="color:var(--blue)">Þetta er eingöngu áætlun. Við þurfum myndir, teikningar og/eða koma að meta verkið með rafvirkja til að gefa endanlegt tilboð í hvert skipti.</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscription -->
+            <div class="dcard" id="subscription-section">
+                <div class="dcard-title">Áskrift per staðsetningu</div>
+                <div style="background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:1.2rem; margin-bottom:1.25rem;">
+                    <div style="font-weight:600; color:var(--text); margin-bottom:0.6rem; font-size:0.95rem;">Af hverju þarf ég áskrift?</div>
+                    <div style="font-size:0.85rem; color:var(--text-sec); line-height:1.6;">
+                        <p style="margin-bottom:0.75rem;">Hefðbundin stór upptökutæki (NVR) úreldast iðulega á nokkrum árum, bjóða oft á tíðum upp á klunnalegt viðmót og opna fyrir gríðarlega stóra öryggisgalla um leið og reynt er að setja upp fjaraðgang ásamt því að eiga erfitt með að taka við nýjustu hugbúnaðaruppfærslum.</p>
+                        <p style="margin-bottom:0.75rem;"><strong>Hörpusýn snýr þessu á hvolf.</strong> Í stað þess að kaupa dýrt og úrelt upptökutæki, fjárfestir þú í lítilli en gríðarlega öflugri <strong>Stöðusýn snjalltölvu</strong> sem verður hjartað í kerfinu þínu. Kerfið keyrir dulkóðaða fjartengingu (VPN) sem tryggir 100% öruggan aðgang hvar sem þú ert í heiminum, ásamt því að vinna alla gervigreind (hreyfiskynjun og manngreiningu) hratt og örugglega á staðnum um leið og hlutirnir gerast. Með áskriftinni tengist Stöðusýnin einnig við skýjaþjónustu Blábergs sem hugsar um vélina þína og sér um <strong>stöðugar öryggis- og hugbúnaðaruppfærslur</strong>, svo vélbúnaðurinn sem þú keyptir er alltaf eins og nýr og tilbúinn fyrir framtíðina.</p>
+                        <p><strong>Bæði hefðbundin og gáfuleg upptaka:</strong> Hver myndavél framkvæmir hefðbundna myndupptöku sem geymist sjálfstætt (u.þ.b. 10-14 daga) á innbyggðu 128GB SD-korti sem tryggir samfellda vöktun jafnvel þó staðarnetið detti út. Að auki safnar Stöðusýnin öllum "hreyfingar-atburðum" (þegar fólk eða bílar sjást) á sinn miðlæga harða disk (u.þ.b. 200-500GB) svo hægt sé að fletta leifturhratt í gegnum markverða atburði úr öllum vélum samstundis í beint úr sama vefviðmótinu.</p>
+                    </div>
+                </div>
+
+                <div class="plans-grid" id="plans-grid">
+                    <div class="plan-card selected" id="plan-gr" data-plan="grunn">
+                        <div class="plan-name">Grunnur</div>
+                        <div class="plan-price">4.900 kr <span>/ mán</span></div>
+                        <div class="plan-per">per staðsetningu</div>
+                        <div class="plan-feats">
+                            <div class="plan-feat"><span class="ck">✓</span> Gervigreindar módel keyrð á staðnum</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Nútímalegt vefviðmót</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Beint streymi úr vafra (eingöngu á staðarneti)</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Upptökustýring aukalega umfram SD kort</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Möguleiki á fjaraðstoð</div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Fjaraðgangur hvar sem er (VPN)</span></div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Reglulegar hugbúnaðar- og öryggisuppfærslur</span></div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Heilsutilkynningar ef vél eða upptaka bilar</span></div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Mánaðarleg vöktunarskýrsla</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="plan-card recommended" id="plan-ur" data-plan="urvals">
+                        <div class="plan-badge">Mælt með</div>
+                        <div class="plan-name">Úrvals</div>
+                        <div class="plan-price">9.900 kr <span>/ mán</span></div>
+                        <div class="plan-per">per staðsetningu</div>
+                        <div class="plan-feats">
+                            <div class="plan-feat"><span class="ck">✓</span> Gervigreindar módel keyrð á staðnum</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Nútímalegt vefviðmót</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Beint streymi úr vafra (hvar sem er)</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Upptökustýring aukalega umfram SD kort</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Möguleiki á fjaraðstoð</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Fjaraðgangur hvar sem er (VPN)</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Reglulegar hugbúnaðar- og öryggisuppfærslur</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Heilsutilkynningar ef vél eða upptaka bilar</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Mánaðarleg vöktunarskýrsla</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ekki Stöðusýn toggle (færdur niður fyrrneðan) -->
+                <div style="height:1rem"></div>
+                <label class="null-toggle-row" id="null-toggle" style="margin-bottom:0">
+                    <input type="checkbox" id="null-cb">
+                    <div>
+                        <div class="null-toggle-label">Ekki Stöðusýn — eingöngu myndavélar og POE switch</div>
+                        <div class="null-toggle-desc">Engin áskrift · Enginn fjaraðgangur né aðstoð · Upptaka eingöngu á SD-kort í vélum</div>
+                        <div class="null-toggle-price">0 kr/mán · Eingöngu vélbúnaður</div>
+                    </div>
+                </label>
+                
+                <div class="plan-note" id="plan-note" style="margin-top:1.25rem;"></div>
+            </div>
+
+            <!-- Add-ons -->
+            <div class="dcard">
+                <div class="dcard-title">Valkvæðar viðbætur</div>
+
+                <div class="toggle-row" id="addon-vidhald">
+                    <div class="tsw" id="vidhald-sw"></div>
+                    <div class="t-info">
+                        <span class="t-name">Viðhaldssamningur</span>
+                        <span class="t-desc">Árleg vettvangsheimsókn ásamt þjálfun og endurmenntun stjórnenda eftir þörfum. Við þrífum linsur myndavéla af óhreinindum sem safnast saman með veðri og vindum og trufla nætursjón, yfirförum útikapla, fínstillum sjónarhorn, rykhreinsum netþjónaskáp og ástandsprófum SD-kort (skipt út ókeypis ef þau bila innan ábyrgðartíma). — 24.000 kr / ár / staðsetningu</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagram -->
+            <div class="dcard">
+                <div class="dcard-title">Kerfismynd</div>
+                <div id="diagram" class="diagram"></div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-sticky">
+            <div class="sum-card">
+                <div class="sum-head">Verðáætlun</div>
+                <div class="sum-body" id="sum-body"></div>
+            </div>
+            <a href="#" class="cta-main" id="cta-btn">Senda fyrirspurn →</a>
+            <a href="tel:5466200" class="cta-phone">Eða hringdu í 546-6200</a>
+        </div>
+    </div>
+</section>
+
+<footer class="foot">
+    © 2026 Bláberg ehf. &nbsp;|&nbsp; <a href="https://blaberg.is">Verslun</a> &nbsp;|&nbsp; <a href="mailto:blaberg@blaberg.is">blaberg@blaberg.is</a> &nbsp;|&nbsp; <a href="tel:5466200">546-6200</a>
+    <br><span style="opacity:0.5; font-size:0.75rem;">Öll verð eru birt án virðisaukaskatts.</span>
+</footer>
+
+<script>
+const state = {
+    cameras: 4,
+    locations: [{ name: 'Staðsetning 1' }],
+    plan: 'grunn',
+    install: false,
+
+    vidhald: false,
+};
+
+const P = {
+    cam: 24990,
+    poe8: 14000,
+    poe24: 29000,
+    stodBase: 99990,
+    setupPerCam: 64990,
+    license: 49990,
+    gr: 4900,
+    ur: 9900,
+    trygg: 12000,
+    vidh: 24000,
+};
+
+const fmt = n => n.toLocaleString('is-IS') + ' kr';
+const CAMERA_IMG = 'camera.webp';
+
+function getSwitch(c) {
+    if (c <= 8) return { name: 'POE Switch 8-portar', price: P.poe8 };
+    if (c <= 24) return { name: 'POE Switch 24-portar', price: P.poe24 };
+    return { name: '2× POE Switch 24-portar', price: P.poe24 * 2 };
+}
+
+function getStodPrice(c) {
+    if (c <= 15) return 99990;    // Venjulegt tæki hræódýrt en afkastamikið
+    if (c <= 30) return 159990;   // Stærra tæki sem þraukar meiri gervigreindarálag
+    return 199990;                // Einstaklega stórt, allt uppí 60+ myndavélar á einni lóð
+}
+
+function getCamsPerLoc() {
+    return Math.ceil(state.cameras / state.locations.length);
+}
+
+function calc() {
+    const c = state.cameras;
+    const locs = state.locations.length;
+    const cpl = getCamsPerLoc();
+    const sw = getSwitch(cpl);
+    const stodPer = state.plan === 'none' ? 0 : getStodPrice(cpl);
+    const stodTotal = stodPer * locs;
+    const swTotal = sw.price * locs;
+    const camTotal = c * P.cam;
+    const setup = state.install ? c * P.setupPerCam : 0;
+    const licenseTotal = 0;
+    const sub = state.plan === 'none' ? 0 : state.plan === 'urvals' ? P.ur : P.gr;
+    const subTotal = sub * locs;
+    let moAddons = 0;
+
+    if (state.vidhald) moAddons += Math.round(P.vidh / 12) * locs;
+    const moTotal = subTotal + moAddons;
+    const oneTime = camTotal + swTotal + stodTotal + setup + licenseTotal;
+    return { c, locs, cpl, sw, stodPer, stodTotal, swTotal, camTotal, setup, oneTime, sub, subTotal, moAddons, moTotal, licenseTotal };
+}
+
+function renderLocations() {
+    const g = document.getElementById('locations-grid');
+    g.innerHTML = state.locations.map((loc, i) => `
+        <div class="loc-card">
+            <div>
+                <div class="loc-name">${loc.name}</div>
+                <div class="loc-sub">~${getCamsPerLoc()} myndavélar · 1 Stöðusýn (uppsetning og tenging innifalin)</div>
+            </div>
+            ${state.locations.length > 1 ? `<button class="loc-remove" data-i="${i}">×</button>` : ''}
+        </div>`).join('');
+    g.querySelectorAll('.loc-remove').forEach(btn => {
+        btn.onclick = e => { e.stopPropagation(); state.locations.splice(+btn.dataset.i, 1); render(); };
+    });
+}
+
+function render() {
+    const d = calc();
+    renderLocations();
+
+    // Toggle Núll visual state
+    const nullCb = document.getElementById('null-cb');
+    const nullRow = document.getElementById('null-toggle');
+    const plansGrid = document.getElementById('plans-grid');
+    nullCb.checked = state.plan === 'none';
+    nullRow.classList.toggle('active', state.plan === 'none');
+    plansGrid.classList.toggle('disabled-plans', state.plan === 'none');
+
+    // Diagram — split per location
+    const dEl = document.getElementById('diagram');
+    const stodLbl = d.cpl > 10 ? 'Stöðusýn (stærra tæki)' : 'Stöðusýn';
+
+    if (d.locs === 1) {
+        const show = Math.min(d.c, 16);
+        let thumbs = '';
+        for (let i = 0; i < show; i++) thumbs += `<div class="cam-thumb" style="animation-delay:${i*0.02}s"><img src="${CAMERA_IMG}" alt="Myndavél"></div>`;
+        if (d.c > 16) thumbs += `<div class="cam-thumb extra">+${d.c - 16}</div>`;
+        const accessLbl = state.plan === 'none' ? 'Bara aðgengilegar af sama neti' : state.plan === 'grunn' ? 'Aðgangur á staðarneti' : 'VPN → Fjaraðgangur hvar sem er';
+        const stodBox = state.plan === 'none' ? '' : `<div class="d-conn"></div>
+            <div class="d-box hub">${stodLbl}<div class="sm">~200GB hreyfingaupptökur · 128GB SD í hverri vél</div></div>`;
+        
+        dEl.innerHTML = `
+            <div class="cam-grid">${thumbs}</div>
+            <div class="d-conn"></div>
+            <div class="d-box switch">${d.sw.name}</div>
+            ${stodBox}
+            <div class="d-conn"></div>
+            <div class="d-cloud">${accessLbl}</div>`;
+    } else {
+        let html = '<div style="display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;width:100%">';
+        state.locations.forEach((loc, i) => {
+            const locCams = Math.ceil(d.c / d.locs);
+            const show = Math.min(locCams, 8);
+            let thumbs = '';
+            for (let j = 0; j < show; j++) thumbs += `<div class="cam-thumb" style="animation-delay:${j*0.02}s;width:36px;height:36px"><img src="${CAMERA_IMG}" alt="Myndavél"></div>`;
+            if (locCams > 8) thumbs += `<div class="cam-thumb extra" style="width:36px;height:36px;font-size:0.65rem">+${locCams - 8}</div>`;
+            const stodBox = state.plan === 'none' ? '' : `<div class="d-conn"></div>
+                    <div class="d-box hub" style="font-size:0.78rem;padding:0.6rem 0.85rem">${stodLbl}<div class="sm">~200GB + SD</div></div>`;
+            html += `
+                <div class="diagram" style="flex:1;min-width:200px;max-width:300px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1rem">
+                    <div style="font-size:0.75rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem">${loc.name}</div>
+                    <div class="cam-grid" style="margin:0.25rem 0">${thumbs}</div>
+                    <div class="d-conn"></div>
+                    <div class="d-box switch" style="font-size:0.78rem;padding:0.5rem 0.85rem">${d.sw.name}</div>
+                    ${stodBox}
+                </div>`;
+        });
+        html += '</div>';
+        html += '<div class="d-conn" style="height:24px"></div>';
+        const accessLbl2 = state.plan === 'none' ? 'Bara aðgengilegar af sama neti' : state.plan === 'grunn' ? 'Aðgangur á staðarneti' : 'VPN → Fjaraðgangur hvar sem er (öll kerfi)';
+        html += `<div class="d-cloud">${accessLbl2}</div>`;
+        dEl.innerHTML = html;
+    }
+
+    // Plan note
+    if (state.plan === 'none') {
+        document.getElementById('plan-note').textContent = 'Eingöngu vélbúnaður greiddur í byrjun. Stöðusýn eða stýring á neti er ekki innifalin.';
+    } else {
+        document.getElementById('plan-note').textContent = d.locs > 1
+            ? `${fmt(d.sub)} × ${d.locs} staðsetningar = ${fmt(d.subTotal)} / mánuð`
+            : 'Áskrift gildir per Stöðusýn tæki (staðsetningu).';
+    }
+
+    const sB = document.getElementById('sum-body');
+    let h = '';
+    h += sli(`${d.c}× Hörpusýn myndavél`, fmt(d.camTotal));
+    h += sli(`${d.locs>1?d.locs+'× ':''}${d.sw.name}`, fmt(d.swTotal));
+    
+    if (state.plan !== 'none') {
+        const stNm = d.cpl > 10 ? 'Stöðusýn (stærra)' : 'Stöðusýn';
+        h += sli(`${d.locs>1?d.locs+'× ':''}${stNm}`, fmt(d.stodTotal));
+    }
+    
+    if (d.licenseTotal > 0) h += sli(`Hugbúnaðarleyfi${d.locs>1?' ('+d.locs+'×)':''}`, fmt(d.licenseTotal));
+    if (state.install) h += sli(`Uppsetning ${d.c}× véla`, fmt(d.setup));
+    h += `<div class="sli total"><span class="l">Samtals eingreiðsla</span><span class="a">${fmt(d.oneTime)}</span></div>`;
+
+    if (state.plan !== 'none') {
+        h += `<div style="height:0.4rem"></div>`;
+        const pn = state.plan === 'urvals' ? 'Úrvals' : 'Grunnur';
+        h += `<div class="sli mo"><span class="l">${pn} áskrift${d.locs>1?' ('+d.locs+'×)':''}</span><span class="a">${fmt(d.subTotal)}/mán</span></div>`;
+        if (state.vidhald) h += sli(`Viðhaldssamningur${d.locs>1?' ('+d.locs+'×)':''}`, fmt(Math.round(P.vidh/12)*d.locs) + '/mán');
+        if (state.vidhald || d.locs > 1) {
+            h += `<div class="sli mo"><span class="l">Samtals mánaðarlegt</span><span class="a">${fmt(d.moTotal)}/mán</span></div>`;
+        }
+    } else {
+        h += `<div style="height:0.4rem"></div>`;
+        h += `<div class="sli mo"><span class="l">Engin mánaðarleg áskrift</span><span class="a">0 kr/mán</span></div>`;
+    }
+    if (state.install) {
+        h += `<div class="disclaimer"><strong style="color:var(--blue)">Þetta er eingöngu áætlun. Við þurfum myndir, teikningar og/eða koma að meta verkið með rafvirkja</strong> til að gefa endanlegt tilboð í hvert sinn.</div>`;
+    }
+    sB.innerHTML = h;
+
+    // Email
+    const pn2 = state.plan === 'none' ? 'Ekki Stöðusýn (eingöngu vélbúnaður)' : state.plan === 'urvals' ? 'Úrvals' : 'Grunnur';
+    const locsText = state.locations.map(l => l.name).join(', ');
+    const body = encodeURIComponent(
+        `Sæl!\n\nÉg hef áhuga á Hörpusýn myndavélakerfi:\n\n` +
+        `• ${d.c} myndavélar (Hörpusýn 6MP)\n` +
+        `• ${d.locs} staðsetning${d.locs>1?'ar':''}: ${locsText}\n` +
+        (state.plan !== 'none' ? `• ${d.locs}× Stöðusýn miðstöð\n` : '') +
+        (state.plan !== 'none' ? `• Áskrift: ${pn2} (${fmt(d.subTotal)}/mán)\n` : `• Áskrift: ${pn2}\n`) +
+        (state.install ? `• Uppsetning innifalin\n` : `• Sjáum sjálf um uppsetningu\n`) +
+        (state.vidhald ? `• Viðhaldssamningur\n` : '') +
+        `\nÁætluð eingreiðsla: ${fmt(d.oneTime)}\n\n` +
+        `Vinsamlegast sendið nákvæmt tilboð.\nHér eru myndir eða teikningar af staðsetningu:\n` +
+        `[Hengdu við myndir eða teikningar hér]\n\nKveðja`
+    );
+    document.getElementById('cta-btn').href = `mailto:blaberg@blaberg.is?subject=${encodeURIComponent('Hörpusýn fyrirspurn — '+d.c+' myndavélar')}&body=${body}`;
+}
+
+function sli(l, a) { return `<div class="sli"><span class="l">${l}</span><span class="a">${a}</span></div>`; }
+
+// Events
+document.getElementById('cam-slider').oninput = function() { state.cameras = +this.value; document.getElementById('cam-val').textContent = state.cameras; render(); };
+document.getElementById('add-loc').onclick = () => { state.locations.push({ name: 'Staðsetning ' + (state.locations.length+1) }); render(); };
+function selectPlan(p) {
+    state.plan=p;
+    document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+    if (p !== 'none') {
+        const el = p==='grunn'?'plan-gr':'plan-ur';
+        document.getElementById(el).classList.add('selected');
+    }
+    render();
+}
+document.getElementById('null-cb').onchange = function() {
+    if (this.checked) {
+        state.plan = 'none';
+        document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+    } else {
+        state.plan = 'grunn';
+        document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+        document.getElementById('plan-gr').classList.add('selected');
+    }
+    render();
+};
+document.getElementById('plan-gr').onclick = () => selectPlan('grunn');
+document.getElementById('plan-ur').onclick = () => selectPlan('urvals');
+document.getElementById('install-toggle').onclick = () => { state.install=!state.install; document.getElementById('install-sw').classList.toggle('on',state.install); render(); };
+
+document.getElementById('addon-vidhald').onclick = () => { state.vidhald=!state.vidhald; document.getElementById('vidhald-sw').classList.toggle('on',state.vidhald); render(); };
+
+render();
+</script>
+</body>
+</html>

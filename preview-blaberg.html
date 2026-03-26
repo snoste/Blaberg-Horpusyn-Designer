@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hörpusýn Kerfishönnuður — Bláberg</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #545454;
+            background: #fff;
+        }
+
+        /* ── ANNOUNCEMENT BAR ── */
+        .announcement-bar {
+            background: #2660aa;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 13px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── HEADER ── */
+        .site-header-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 50px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .site-logo img {
+            height: 50px;
+        }
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 40px;
+            position: relative;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            outline: none;
+        }
+        .search-bar input:focus { border-color: #2660aa; }
+        .search-bar::before {
+            content: "🔍";
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.4;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+        }
+        .header-actions a {
+            color: #545454;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-actions a:hover { color: #2660aa; }
+        .header-actions svg { width: 20px; height: 20px; }
+
+        /* ── NAV ── */
+        .site-nav {
+            background: #2b2b2b;
+            padding: 0 50px;
+        }
+        .site-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .site-nav li {
+            position: relative;
+        }
+        .site-nav a {
+            display: block;
+            padding: 14px 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            transition: background 0.2s;
+        }
+        .site-nav a:hover, .site-nav a.active {
+            background: #2660aa;
+        }
+
+        /* ── BREADCRUMB ── */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 50px;
+            font-size: 13px;
+            color: #888;
+        }
+        .breadcrumb a { color: #2660aa; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* ── MAIN CONTENT ── */
+        .page-content {
+            width: 100%;
+        }
+        .page-content iframe {
+            width: 100%;
+            border: none;
+            min-height: 100vh;
+        }
+
+        /* ── FOOTER ── */
+        .site-footer {
+            background: #f4f4f4;
+            padding: 50px;
+            color: #545454;
+            border-top: 1px solid #e5e5e5;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .footer-grid h4 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .footer-grid ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-grid li {
+            margin-bottom: 8px;
+        }
+        .footer-grid a {
+            color: #545454;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .footer-grid a:hover { color: #2660aa; text-decoration: underline; }
+        .footer-grid p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .footer-newsletter input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 10px;
+        }
+        .footer-newsletter button {
+            background: #2660aa;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .footer-newsletter button:hover { background: #1e4f8f; }
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #888;
+        }
+        .footer-bottom-links { display: flex; gap: 20px; }
+        .footer-bottom-links a { color: #888; text-decoration: none; }
+        .footer-bottom-links a:hover { color: #2660aa; }
+        .footer-payment img { height: 24px; }
+
+        @media (max-width: 768px) {
+            .site-header-main { padding: 12px 16px; flex-wrap: wrap; }
+            .search-bar { margin: 10px 0; order: 3; flex-basis: 100%; }
+            .site-nav { padding: 0 16px; overflow-x: auto; }
+            .site-nav ul { gap: 0; white-space: nowrap; }
+            .breadcrumb { padding: 12px 16px; }
+            .site-footer { padding: 30px 16px; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+    Ókeypis afhending af pöntunum frá 12.000 kr á höfuðborgarsvæðinu og 20.000 kr hvert á land sem er - 30 daga skilafrestur á öllum vörum
+</div>
+
+<!-- HEADER -->
+<div class="site-header-main">
+    <div class="site-logo">
+        <a href="https://blaberg.is">
+            <img src="https://blaberg.is/cdn/shop/files/logo_bla_berg_900x.png?v=1613567705" alt="Bláberg">
+        </a>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Skrifaðu leitarorð">
+    </div>
+    <div class="header-actions">
+        <a href="https://blaberg.is/account">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Innskráning
+        </a>
+        <a href="https://blaberg.is/cart">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </a>
+    </div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="site-nav">
+    <ul>
+        <li><a href="https://blaberg.is/">Heim</a></li>
+        <li><a href="https://blaberg.is/collections">Vörur</a></li>
+        <li><a href="https://blaberg.is/pages/fyrirtaekjalausnir" class="active">Fyrirtækjalausnir</a></li>
+        <li><a href="https://blaberg.is/pages/algengar-spurningar">Algengar spurningar</a></li>
+        <li><a href="https://blaberg.is/pages/um-okkur">Um okkur</a></li>
+        <li><a href="https://blaberg.is/pages/hafdu-samband">Hafðu Samband - Fá tilboð</a></li>
+    </ul>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    <a href="https://blaberg.is">Heim</a> &nbsp;/&nbsp; <a href="https://blaberg.is/pages/fyrirtaekjalausnir">Fyrirtækjalausnir</a> &nbsp;/&nbsp; Hörpusýn Kerfishönnuður
+</div>
+
+<!-- MAIN: DESIGNER (iframe) -->
+<div class="page-content">
+    <iframe id="designerFrame" src="index.html" title="Hörpusýn Kerfishönnuður"></iframe>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div>
+            <h4>Valmynd</h4>
+            <ul>
+                <li><a href="https://blaberg.is/">Heim</a></li>
+                <li><a href="https://blaberg.is/collections">Vörur</a></li>
+                <li><a href="https://blaberg.is/pages/algengar-spurningar">Algengar spurningar</a></li>
+                <li><a href="https://blaberg.is/pages/um-okkur">Um okkur</a></li>
+                <li><a href="https://blaberg.is/pages/hafdu-samband">Hafðu samband</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Vöruflokkar</h4>
+            <ul>
+                <li><a href="https://blaberg.is/collections/oryggismyndavelar">Öryggismyndavélar</a></li>
+                <li><a href="https://blaberg.is/collections/4g-myndavelakerfi">4G myndavélakerfi</a></li>
+                <li><a href="https://blaberg.is/collections/oryggiskerfi">Öryggiskerfi</a></li>
+                <li><a href="https://blaberg.is/collections/aukahlutir">Aukahlutir</a></li>
+                <li><a href="https://blaberg.is/collections/allar-vorur">Allar vörur</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Hafðu samband</h4>
+            <p>
+                Bláberg ehf.<br>
+                <a href="mailto:blaberg@blaberg.is">blaberg@blaberg.is</a><br>
+                <a href="tel:+3545466200">546-6200</a>
+            </p>
+            <p style="margin-top: 16px;">
+                <strong>Verslun:</strong><br>
+                <a href="https://blaberg.is" target="_blank">blaberg.is</a>
+            </p>
+        </div>
+        <div>
+            <h4>Póstlisti</h4>
+            <p style="margin-bottom: 12px;">Skráðu þig á póstlista okkar og fáðu fréttir af nýjum vörum og tilboðum.</p>
+            <div class="footer-newsletter">
+                <input type="email" placeholder="Netfangið þitt">
+                <button>Skrá</button>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div>Copyright © 2026 Bláberg ehf. Powered by Shopify</div>
+        <div class="footer-bottom-links">
+            <a href="https://blaberg.is/policies/privacy-policy">Persónuverndarstefna</a>
+            <a href="https://blaberg.is/policies/terms-of-service">Skilmálar</a>
+            <a href="https://blaberg.is/policies/refund-policy">Skilastefna</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Auto-resize iframe to match designer content height
+    const iframe = document.getElementById('designerFrame');
+    function resizeFrame() {
+        try {
+            const h = iframe.contentWindow.document.documentElement.scrollHeight;
+            iframe.style.height = h + 'px';
+        } catch(e) {}
+    }
+    iframe.addEventListener('load', () => {
+        resizeFrame();
+        // Re-check height periodically (designer content changes dynamically)
+        setInterval(resizeFrame, 500);
+    });
+</script>
+
+</body>
+</html>
