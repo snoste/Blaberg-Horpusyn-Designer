@@ -290,6 +290,21 @@
 </head>
 <body>
 
+<div id="pw-gate" style="position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;">
+    <img src="https://blaberg.is/cdn/shop/files/logo_2023_hvitt_996x470.png?v=1675109341" alt="Bláberg" style="height:40px;opacity:0.7;">
+    <div style="color:rgba(255,255,255,0.5);font-size:0.9rem;font-family:Inter,sans-serif;">Þessi síða er í þróun</div>
+    <div style="display:flex;gap:0.5rem;">
+        <input id="pw-input" type="password" placeholder="Lykilorð" autofocus style="padding:0.75rem 1.25rem;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:white;font-size:1rem;font-family:Inter,sans-serif;outline:none;width:220px;">
+        <button onclick="checkPw()" style="padding:0.75rem 1.5rem;border-radius:10px;border:none;background:#059669;color:white;font-weight:700;font-size:0.95rem;cursor:pointer;font-family:Inter,sans-serif;">Opna</button>
+    </div>
+    <div id="pw-err" style="color:#f87171;font-size:0.82rem;font-family:Inter,sans-serif;display:none;">Rangt lykilorð</div>
+</div>
+<script>
+function checkPw(){const v=document.getElementById('pw-input').value;if(v==='stekkjarflot11'){document.getElementById('pw-gate').style.display='none';sessionStorage.setItem('bb-pw','1');}else{document.getElementById('pw-err').style.display='block';document.getElementById('pw-input').value='';}}
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});
+if(sessionStorage.getItem('bb-pw')==='1')document.getElementById('pw-gate').style.display='none';
+</script>
+
 <header class="header">
     <div class="header-inner">
         <a href="https://blaberg.is" class="logo-area">
