@@ -1,17 +1,26 @@
-# Hörpusýn Myndavélahönnuður
+# Bláberg Hönnuðir
 
-Kerfishönnuður og verðreiknir fyrir [Hörpusýn](https://blaberg.is) myndavélakerfi frá Bláberg.
+Kerfishönnuðir og verðreiknar fyrir öryggis- og myndavélakerfi frá [Bláberg](https://blaberg.is).
 
-Notendur geta valið fjölda myndavéla, staðsetningar, áskriftarleiðir og viðbætur — og fengið verðáætlun samstundis.
+## Hönnuðir
+
+| Hönnuður | URL | Mappa | Lýsing |
+|----------|-----|-------|--------|
+| **Myndavélar** | [myndavelar.blaberg.is](https://myndavelar.blaberg.is) | `myndavelar/` | Hörpusýn myndavélakerfi — AI-greining, fjaraðgangur |
+| **Öryggiskerfi** | [kerfi.blaberg.is](https://kerfi.blaberg.is) | `kerfi/` | Chuango öryggiskerfi — skynjurar, viðvaranir, þjónustusamningar |
 
 ## Keyrsla staðbundið
 
-Opnaðu `index.html` beint í vafra — engin build-skref eða pakkastjóri þarf.
+Opnaðu `myndavelar/index.html` eða `kerfi/index.html` beint í vafra — engin build-skref þarf.
 
-## Deploy á Google Cloud App Engine
+## Deploy á Google Cloud
 
 ```bash
-gcloud app deploy --quiet --project=<PROJECT_ID>
+# Myndavélar (myndavelar.blaberg.is)
+cd myndavelar && gcloud run deploy myndavelar-designer --source . --region europe-west1 --allow-unauthenticated
+
+# Öryggiskerfi (kerfi.blaberg.is)
+cd kerfi && gcloud run deploy kerfi-designer --source . --region europe-west1 --allow-unauthenticated
 ```
 
 ## Tengd Repo
@@ -22,12 +31,20 @@ gcloud app deploy --quiet --project=<PROJECT_ID>
 
 ## Skráaryfirlit
 
-| Skrá | Lýsing |
-|------|--------|
-| `index.html` | Aðalsíðan — hönnuður, verðreiknir og kynning |
-| `app.yaml` | Google Cloud App Engine stillingar |
-| `camera.webp` / `camera_hero.png` | Myndir af Hörpusýn myndavélum |
-| `preview-blaberg.html` | Forskoðunarsíða |
+```
+├── myndavelar/           # Hörpusýn myndavélahönnuður
+│   ├── index.html        # Aðalsíða
+│   ├── Dockerfile        # Cloud Run deployment
+│   ├── app.yaml          # App Engine stillingar
+│   ├── camera.webp       # Myndavélarmynd
+│   ├── camera_hero.png   # Hero mynd
+│   └── preview-blaberg.html
+├── kerfi/                # Öryggiskerfishönnuður
+│   ├── index.html        # Aðalsíða
+│   ├── Dockerfile        # Cloud Run deployment
+│   └── app.yaml          # App Engine stillingar
+└── README.md
+```
 
 ---
 

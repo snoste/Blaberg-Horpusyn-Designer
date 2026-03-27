@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öryggiskerfi — Snjallvernd frá Bláberg</title>
+    <meta name="description" content="Hannaðu þitt eigið öryggiskerfi með Bláberg. Þráðlausir skynjurar, app-stýring, rauntíma viðvaranir. Fyrir heimili, sumarbústaði og fyrirtæki.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald: #059669;
+            --emerald-dark: #047857;
+            --emerald-light: #10b981;
+            --emerald-bright: #34d399;
+            --emerald-glow: rgba(5, 150, 105, 0.12);
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --border-hover: #d1d5db;
+            --text: #111827;
+            --text-sec: #6b7280;
+            --text-muted: #9ca3af;
+            --green: #059669;
+            --green-bg: #ecfdf5;
+            --amber: #d97706;
+            --blue: #1b4f9d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg); color: var(--text);
+            -webkit-font-smoothing: antialiased; font-size: 16px;
+        }
+
+        .header {
+            background: #000; padding: 0.75rem 2rem;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo-area { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .logo-area img { height: 32px; width: auto; }
+        .header-nav { display: flex; gap: 0.25rem; }
+        .header-nav a {
+            color: rgba(255,255,255,0.6); text-decoration: none;
+            font-size: 0.9rem; font-weight: 500; padding: 0.5rem 1rem;
+            border-radius: 8px; transition: all 0.2s;
+        }
+        .header-nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+        .header-nav a.active { color: white; background: var(--emerald); }
+
+        .sell-hero {
+            background: linear-gradient(180deg, #000 0%, #021a0e 50%, #03301b 100%);
+            color: white; text-align: center; padding: 6rem 2rem 5rem;
+            position: relative; overflow: hidden;
+        }
+        .sell-hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 120px; background: linear-gradient(to bottom, transparent, var(--bg));
+        }
+        .sell-hero .badge {
+            display: inline-flex; align-items: center;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+            padding: 0.5rem 1.25rem; border-radius: 999px;
+            font-size: 0.85rem; font-weight: 600; color: var(--emerald-bright);
+            margin-bottom: 2rem; letter-spacing: 0.03em;
+        }
+        .sell-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
+            line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+            max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+        .sell-hero h1 .grad {
+            background: linear-gradient(135deg, #6ee7b7, #34d399, #10b981);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .sell-hero .sub {
+            font-size: 1.25rem; color: rgba(255,255,255,0.55);
+            max-width: 600px; margin: 0 auto 3rem; line-height: 1.7;
+        }
+        .sell-hero .cta-row {
+            display: flex; gap: 1rem; justify-content: center;
+            flex-wrap: wrap; margin-bottom: 2rem;
+        }
+        .btn-hero {
+            padding: 1rem 2.25rem; border-radius: 14px; font-size: 1rem;
+            font-weight: 700; text-decoration: none; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; border: none;
+        }
+        .btn-hero.primary { background: var(--emerald); color: white; }
+        .btn-hero.primary:hover { background: var(--emerald-light); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(16,185,129,0.3); }
+        .btn-hero.ghost { background: rgba(255,255,255,0.06); color: white; border: 1px solid rgba(255,255,255,0.15); }
+        .btn-hero.ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+        .hero-shield {
+            font-size: 6rem; margin-bottom: 1rem; display: block;
+            filter: drop-shadow(0 0 40px rgba(52, 211, 153, 0.3));
+        }
+
+        .features { max-width: 1200px; margin: -2rem auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
+        .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+        @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 550px) { .feature-grid { grid-template-columns: 1fr; } }
+        .feature-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem; text-align: center;
+            transition: all 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .feature-card:hover { border-color: var(--emerald); box-shadow: 0 8px 30px rgba(5,150,105,0.08); transform: translateY(-2px); }
+        .feature-icon {
+            width: 52px; height: 52px; margin: 0 auto 1.25rem;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--emerald-glow); border-radius: 14px; font-size: 1.5rem;
+        }
+        .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 0.88rem; color: var(--text-sec); line-height: 1.65; }
+
+        /* USE CASE SELECTOR */
+        .usecase-section { max-width: 1200px; margin: 0 auto 4rem; padding: 0 2rem; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+        .section-header p { color: var(--text-sec); font-size: 1.1rem; max-width: 550px; margin: 0 auto; }
+        .usecase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+        @media (max-width: 900px) { .usecase-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 550px) { .usecase-grid { grid-template-columns: 1fr; } }
+        .usecase-card {
+            background: var(--surface); border: 2px solid var(--border);
+            border-radius: 16px; padding: 2rem; text-align: center;
+            cursor: pointer; transition: all 0.25s; position: relative;
+        }
+        .usecase-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .usecase-card.selected { border-color: var(--emerald); box-shadow: 0 0 0 1px var(--emerald), 0 4px 16px rgba(5,150,105,0.1); }
+        .usecase-card .uc-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        .usecase-card .uc-name { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.35rem; }
+        .usecase-card .uc-desc { font-size: 0.82rem; color: var(--text-sec); line-height: 1.55; }
+        .usecase-card .uc-check {
+            position: absolute; top: 12px; right: 12px; width: 24px; height: 24px;
+            border-radius: 50%; background: var(--emerald); color: white;
+            font-size: 0.75rem; display: none; align-items: center; justify-content: center;
+        }
+        .usecase-card.selected .uc-check { display: flex; }
+
+        /* DESIGNER */
+        .designer-section { max-width: 1200px; margin: 0 auto 4rem; padding: 0 2rem; }
+        .designer-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; }
+        @media (max-width: 1024px) { .designer-grid { grid-template-columns: 1fr; } }
+        .dcard { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .dcard-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--emerald); margin-bottom: 1.25rem; }
+
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-group:last-child { margin-bottom: 0; }
+        .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+        .slider-header .name { font-weight: 700; font-size: 1.05rem; }
+        .slider-header .val { font-size: 1.75rem; font-weight: 800; color: var(--emerald); }
+        .slider-desc { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 0.85rem; }
+        input[type="range"] {
+            -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
+            border-radius: 3px; background: var(--border); outline: none; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%;
+            background: var(--emerald); cursor: pointer; border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: var(--emerald); cursor: pointer; border: 3px solid white;
+        }
+
+        .toggle-row {
+            display: flex; align-items: flex-start; gap: 0.85rem; padding: 1.15rem;
+            background: var(--bg); border-radius: 14px; cursor: pointer;
+            border: 1px solid var(--border); transition: all 0.2s; margin-bottom: 0.85rem;
+        }
+        .toggle-row:last-child { margin-bottom: 0; }
+        .toggle-row:hover { border-color: var(--border-hover); }
+        .tsw {
+            width: 46px; height: 26px; background: #d1d5db; border-radius: 13px;
+            position: relative; transition: background 0.2s; flex-shrink: 0; margin-top: 2px;
+        }
+        .tsw.on { background: var(--emerald); }
+        .tsw::after {
+            content: ''; position: absolute; width: 22px; height: 22px;
+            background: white; border-radius: 50%; top: 2px; left: 2px;
+            transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+        .tsw.on::after { transform: translateX(20px); }
+        .t-info .t-name { font-weight: 600; font-size: 0.95rem; }
+        .t-info .t-desc { font-size: 0.82rem; color: var(--text-sec); margin-top: 0.2rem; line-height: 1.55; }
+
+        /* PLANS */
+        .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        @media (max-width: 900px) { .plans-grid { grid-template-columns: 1fr; } }
+        .plan-card {
+            border: 2px solid var(--border); border-radius: 16px; padding: 1.75rem;
+            cursor: pointer; transition: all 0.2s; position: relative; background: white;
+        }
+        .plan-card:hover { border-color: var(--border-hover); }
+        .plan-card.selected { border-color: var(--emerald); box-shadow: 0 0 0 1px var(--emerald), 0 4px 16px rgba(5,150,105,0.1); }
+        .plan-card .plan-badge {
+            position: absolute; top: -10px; right: 16px; background: var(--emerald);
+            color: white; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.65rem;
+            border-radius: 6px; text-transform: uppercase; letter-spacing: 0.04em; display: none;
+        }
+        .plan-card.recommended .plan-badge { display: block; }
+        .plan-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .plan-price { font-size: 1.5rem; font-weight: 800; color: var(--emerald); margin-bottom: 0.15rem; }
+        .plan-price span { font-size: 0.85rem; font-weight: 500; color: var(--text-sec); }
+        .plan-per { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+        .plan-feats { display: flex; flex-direction: column; gap: 0.6rem; }
+        .plan-feat { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.85rem; color: var(--text-sec); line-height: 1.45; }
+        .plan-feat .ck { color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .plan-feat .off { color: var(--text-muted); }
+        .plan-feat.disabled { opacity: 0.4; }
+        .plan-feat.disabled .ck { color: var(--text-muted); }
+
+        /* INSURANCE */
+        .insurance-block {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 1px solid #a7f3d0; border-radius: 20px; padding: 3rem;
+            max-width: 1200px; margin: 0 auto 4rem; position: relative;
+        }
+        .insurance-block h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; }
+        .insurance-block p { color: var(--text-sec); line-height: 1.8; margin-bottom: 1rem; font-size: 1rem; }
+        .insurance-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: white; border: 1px solid #a7f3d0; padding: 0.5rem 1rem;
+            border-radius: 10px; font-size: 0.9rem; font-weight: 600; color: var(--emerald-dark);
+        }
+
+        /* DIAGRAM */
+        .diagram { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; padding: 0.5rem 0; }
+        .d-conn { width: 2px; height: 18px; background: linear-gradient(to bottom, var(--border), var(--emerald)); }
+        .d-box { padding: 0.7rem 1.25rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-align: center; min-width: 150px; }
+        .d-box.hub { background: linear-gradient(135deg, var(--emerald-dark), var(--emerald)); color: white; padding: 0.85rem 1.5rem; box-shadow: 0 4px 16px rgba(5,150,105,0.15); }
+        .d-box.sensor { background: var(--emerald-glow); color: var(--emerald-dark); border: 1px solid #a7f3d0; }
+        .d-cloud { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 999px; border: 1px dashed var(--border); font-size: 0.78rem; color: var(--text-sec); background: var(--bg); }
+
+        /* SUMMARY */
+        .summary-sticky { position: sticky; top: 72px; }
+        .sum-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 1rem; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+        .sum-head { background: var(--emerald); padding: 1.25rem 1.75rem; font-weight: 700; font-size: 1rem; color: white; }
+        .sum-body { padding: 1.75rem; }
+        .sli { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; font-size: 0.92rem; }
+        .sli .l { color: var(--text-sec); }
+        .sli .a { font-weight: 700; font-variant-numeric: tabular-nums; }
+        .sli.total { border-top: 2px solid var(--border); padding-top: 0.9rem; margin-top: 0.5rem; }
+        .sli.total .l { color: var(--text); font-weight: 700; font-size: 1rem; }
+        .sli.total .a { font-size: 1.35rem; color: var(--emerald); }
+        .sli.mo { border-top: 1px solid var(--border); padding-top: 0.7rem; }
+        .sli.mo .l { color: var(--amber); font-weight: 600; }
+        .sli.mo .a { color: var(--amber); }
+        .disclaimer { font-size: 0.75rem; color: var(--text-muted); line-height: 1.55; padding: 0.85rem 0 0; border-top: 1px solid var(--border); margin-top: 0.85rem; }
+
+        .cta-main { display: block; width: 100%; padding: 1.1rem; background: var(--emerald); color: white; border: none; border-radius: 14px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; }
+        .cta-main:hover { background: var(--emerald-light); box-shadow: 0 4px 20px rgba(5,150,105,0.25); transform: translateY(-1px); }
+        .cta-phone { display: block; text-align: center; color: var(--text-sec); font-size: 0.85rem; margin-top: 0.65rem; text-decoration: none; }
+        .cta-phone:hover { color: var(--text); }
+
+        .foot { background: #000; color: rgba(255,255,255,0.5); padding: 2.5rem; text-align: center; font-size: 0.85rem; margin-top: 4rem; }
+        .foot a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .foot a:hover { color: white; }
+
+        /* Locations */
+        .locations-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
+        .loc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .loc-card .loc-name { font-weight: 600; font-size: 0.95rem; }
+        .loc-card .loc-sub { font-size: 0.78rem; color: var(--text-sec); margin-top: 0.15rem; }
+        .loc-remove { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: white; color: var(--text-muted); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .loc-remove:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+        .btn-add-loc { display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.75rem; border-radius: 12px; border: 1px dashed var(--border); background: transparent; color: var(--emerald); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .btn-add-loc:hover { background: var(--emerald-glow); border-color: var(--emerald); }
+
+        .plan-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px solid var(--border); line-height: 1.5; }
+
+        @media (max-width: 768px) {
+            .sell-hero { padding: 4rem 1.5rem 3rem; }
+            .designer-section { padding: 0 1rem; }
+            .header-nav { display: none; }
+            .designer-grid { grid-template-columns: 1fr; }
+            .insurance-block { margin: 0 1rem 4rem; padding: 2rem; }
+        }
+        ::selection { background: rgba(5,150,105,0.2); }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <a href="https://blaberg.is" class="logo-area">
+            <img src="https://blaberg.is/cdn/shop/files/logo_2023_hvitt_996x470.png?v=1675109341" alt="Bláberg" height="32">
+        </a>
+        <nav class="header-nav">
+            <a href="#features">Eiginleikar</a>
+            <a href="#usecases">Húsnæði</a>
+            <a href="#designer" class="active">Kerfishönnuður</a>
+            <a href="https://blaberg.is/collections/chuango">Verslun</a>
+        </nav>
+    </div>
+</header>
+
+<section class="sell-hero">
+    <div class="badge">ÖRYGGISKERFI FRÁ BLÁBERG</div>
+    <span class="hero-shield">🛡️</span>
+    <h1>Öryggiskerfi sem <span class="grad">vakir fyrir þig</span></h1>
+    <p class="sub">
+        Þráðlausir skynjurar. App-stýring. Rauntíma viðvaranir.
+        Verndaðu heimilið, sumarbústaðinn eða fyrirtækið — einfalt og öruggt.
+    </p>
+    <div class="cta-row">
+        <a href="#designer" class="btn-hero primary">Hannaðu þitt kerfi →</a>
+        <a href="https://blaberg.is/collections/chuango" class="btn-hero ghost">Skoða vörur</a>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Þráðlaus vernd</h3>
+            <p>Engir kaplar. Skynjurar festast á vegg með límmiða eða skrúfum. Auðveld uppsetning á mínútum.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>App-stýring</h3>
+            <p>Stjórnaðu öllu í gegnum DreamCatcher appið. Virkjaðu, afvirkjaðu og skoðið viðvaranir hvar sem þú ert.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔔</div>
+            <h3>Rauntíma viðvaranir</h3>
+            <p>Push tilkynningar beint í símann þinn um leið og skynjari fer í gang. Deildu með fjölskyldu.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌡️</div>
+            <h3>Umhverfisvöktun</h3>
+            <p>Fylgstu með hitastigi, raka og loftgæðum. Fullkomin vernd gegn frostskemmdum og vatnstjóni.</p>
+        </div>
+    </div>
+</section>
+
+<section class="usecase-section" id="usecases">
+    <div class="section-header">
+        <h2>Hvers konar húsnæði ertu að verja?</h2>
+        <p>Veldu tegund og fáðu sjálfvirka tillögu að búnaði sem hentar.</p>
+    </div>
+    <div class="usecase-grid">
+        <div class="usecase-card" data-uc="ibud" onclick="selectUseCase('ibud')">
+            <span class="uc-check">✓</span>
+            <span class="uc-icon">🏢</span>
+            <div class="uc-name">Íbúð / Blokk</div>
+            <div class="uc-desc">1-3 herbergi, 1-2 innganga. Þar sem einfaldleiki skiptir máli.</div>
+        </div>
+        <div class="usecase-card" data-uc="einbyli" onclick="selectUseCase('einbyli')">
+            <span class="uc-check">✓</span>
+            <span class="uc-icon">🏠</span>
+            <div class="uc-name">Einbýlishús</div>
+            <div class="uc-desc">Margir inngangar og gluggar. Full vernd út og inn.</div>
+        </div>
+        <div class="usecase-card" data-uc="sumar" onclick="selectUseCase('sumar')">
+            <span class="uc-check">✓</span>
+            <span class="uc-icon">🏡</span>
+            <div class="uc-name">Sumarbústaður</div>
+            <div class="uc-desc">Fjarverandi mestan tímann. 4G tenging, hitavöktun og frostvernd.</div>
+        </div>
+        <div class="usecase-card" data-uc="fyrirtaeki" onclick="selectUseCase('fyrirtaeki')">
+            <span class="uc-check">✓</span>
+            <span class="uc-icon">🏬</span>
+            <div class="uc-name">Fyrirtæki</div>
+            <div class="uc-desc">Verslun, skrifstofa eða vöruhús. Stærri kerfi, margir skynjurar.</div>
+        </div>
+    </div>
+</section>
+
+<section class="designer-section" id="designer">
+    <div class="section-header">
+        <h2>Hannaðu þitt eigið kerfi</h2>
+        <p>Veldu skynjara og stillingar — fáðu verðáætlun strax.</p>
+    </div>
+    <div class="designer-grid">
+        <div>
+            <!-- Sensors -->
+            <div class="dcard">
+                <div class="dcard-title">Skynjurar og tæki</div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">Hurðar/gluggaskynjarar</span><span class="val" id="door-val">2</span></div>
+                    <div class="slider-desc">Segulnemi sem skynjar opnun hurðar eða glugga · 4.990 kr / stk</div>
+                    <input type="range" min="0" max="20" value="2" id="door-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">Hreyfiskynjarar</span><span class="val" id="motion-val">1</span></div>
+                    <div class="slider-desc">PIR hreyfiskynjari, ónæmur fyrir dýr undir 25 kg · 5.990 kr / stk</div>
+                    <input type="range" min="0" max="12" value="1" id="motion-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">Reykskynjari</span><span class="val" id="smoke-val">1</span></div>
+                    <div class="slider-desc">Þráðlaus reykgreining, 85dB sírena · 7.990 kr / stk</div>
+                    <input type="range" min="0" max="6" value="1" id="smoke-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">5-í-1 Fjölnotaskynjari</span><span class="val" id="multi-val">0</span></div>
+                    <div class="slider-desc">Hiti, raki, birta, hreyfing, reykskynjaravæli · 9.990 kr / stk</div>
+                    <input type="range" min="0" max="4" value="0" id="multi-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">WiFi Myndavél 1080P</span><span class="val" id="cam-val">0</span></div>
+                    <div class="slider-desc">Hreyfanleg innanhúss myndavél, 32GB · 12.990 kr / stk</div>
+                    <input type="range" min="0" max="8" value="0" id="cam-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">Auka sírena</span><span class="val" id="siren-val">0</span></div>
+                    <div class="slider-desc">Þráðlaus útsírena, 110dB · 6.990 kr / stk</div>
+                    <input type="range" min="0" max="4" value="0" id="siren-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="name">Fjarstýringar (pakki 2 stk)</span><span class="val" id="remote-val">1</span></div>
+                    <div class="slider-desc">Virkja/afvirkja kerfið með hnappþrýstingi · 3.990 kr / pakki</div>
+                    <input type="range" min="0" max="4" value="1" id="remote-slider">
+                </div>
+            </div>
+
+            <!-- 4G toggle -->
+            <div class="dcard">
+                <div class="dcard-title">Tenging</div>
+                <div class="toggle-row" id="4g-toggle">
+                    <div class="tsw" id="4g-sw"></div>
+                    <div class="t-info">
+                        <span class="t-name">4G Hneta</span>
+                        <span class="t-desc">Býr til WiFi hvar sem er — fullkomið fyrir sumarbústaði eða staði án internets. SIM-kort fylgir. — 14.990 kr</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Locations -->
+            <div class="dcard">
+                <div class="dcard-title">Staðsetningar</div>
+                <p style="font-size:0.88rem; color:var(--text-sec); margin-bottom:0.75rem;">
+                    Hvert öryggiskerfi þjónar einni staðsetningu. Ef þú átt fleiri staði bætirðu einfaldlega við.
+                </p>
+                <div class="locations-grid" id="locations-grid"></div>
+                <button class="btn-add-loc" id="add-loc" style="margin-top:0.85rem;">+ Bæta við staðsetningu</button>
+            </div>
+
+            <!-- Installation -->
+            <div class="dcard">
+                <div class="dcard-title">Uppsetning</div>
+                <div class="toggle-row" id="install-toggle">
+                    <div class="tsw" id="install-sw"></div>
+                    <div class="t-info">
+                        <span class="t-name">Bláberg setur upp kerfið fyrir mig</span>
+                        <span class="t-desc">Fagleg uppsetning og kennsla á staðnum. 19.990 kr / staðsetningu. <strong style="color:var(--emerald)">Innifalin kennsla á notkun og appinu.</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscription -->
+            <div class="dcard" id="subscription-section">
+                <div class="dcard-title">Þjónusta og áskrift</div>
+                <div class="plans-grid" id="plans-grid">
+                    <div class="plan-card selected" id="plan-free" data-plan="free">
+                        <div class="plan-name">Sjálfvirkt</div>
+                        <div class="plan-price">0 kr <span>/ mán</span></div>
+                        <div class="plan-per">engin áskrift</div>
+                        <div class="plan-feats">
+                            <div class="plan-feat"><span class="ck">✓</span> App tilkynningar í síma</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Sírena á öryggisstöð</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Deila kerfinu með fjölskyldu</div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Heilsuathugun á búnaði</span></div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Forgangsaðstoð</span></div>
+                            <div class="plan-feat disabled"><span class="ck">—</span> <span class="off">Tryggingavottun</span></div>
+                        </div>
+                    </div>
+                    <div class="plan-card recommended" id="plan-premium" data-plan="premium">
+                        <div class="plan-badge">Mælt með</div>
+                        <div class="plan-name">Fullvernd</div>
+                        <div class="plan-price">3.900 kr <span>/ mán</span></div>
+                        <div class="plan-per">per staðsetningu</div>
+                        <div class="plan-feats">
+                            <div class="plan-feat"><span class="ck">✓</span> App tilkynningar í síma</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Sírena á öryggisstöð</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Deila kerfinu með fjölskyldu</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Árlega heilsuathugun á öllum skynjurum</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Forgangsaðstoð af Bláberg þjónustuborði</div>
+                            <div class="plan-feat"><span class="ck">✓</span> Tryggingavottun send á tryggingafélag</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="plan-note" id="plan-note"></div>
+            </div>
+
+            <!-- Addons -->
+            <div class="dcard">
+                <div class="dcard-title">Valkvæðar viðbætur</div>
+                <div class="toggle-row" id="addon-vidhald">
+                    <div class="tsw" id="vidhald-sw"></div>
+                    <div class="t-info">
+                        <span class="t-name">Viðhaldssamningur</span>
+                        <span class="t-desc">Árlega heimsókn: rafhlöðuskipti á skynjurum, athugun á virkni, þrif og fínstillingar. — 18.000 kr / ár / staðsetningu</span>
+                    </div>
+                </div>
+                <div class="toggle-row" id="addon-camera">
+                    <div class="tsw" id="camera-sw"></div>
+                    <div class="t-info">
+                        <span class="t-name">Bæta við Hörpusýn myndavélakerfi</span>
+                        <span class="t-desc">Fagleg útimyndavélar, AI-greining og fjaraðgangur. <a href="https://myndavelar.blaberg.is" style="color:var(--emerald);font-weight:600;">Sjá Hörpusýn kerfishönnuðinn →</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagram -->
+            <div class="dcard">
+                <div class="dcard-title">Kerfismynd</div>
+                <div id="diagram" class="diagram"></div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-sticky">
+            <div class="sum-card">
+                <div class="sum-head">Verðáætlun</div>
+                <div class="sum-body" id="sum-body"></div>
+            </div>
+            <a href="#" class="cta-main" id="cta-btn">Senda fyrirspurn →</a>
+            <a href="tel:5466200" class="cta-phone">Eða hringdu í 546-6200</a>
+        </div>
+    </div>
+</section>
+
+<section style="max-width:1200px; margin:0 auto; padding:0 2rem;">
+    <div class="insurance-block" id="insurance">
+        <div style="display:grid; grid-template-columns:1fr auto; gap:2rem; align-items:start;">
+            <div>
+                <h2>🏦 Lægri tryggingaiðgjöld?</h2>
+                <p>Tryggingafélög geta boðið <strong>afslátt af tryggingaiðgjöldum</strong> þegar húsnæði er með vottað öryggiskerfi. Með Fullvernd-áskriftinni frá Bláberg færðu <strong>árlega tryggingavottun</strong> sem staðfestir að kerfið þitt er virkt og í góðu standi.</p>
+                <p>Við erum í viðræðum við tryggingafélög um formlegt samstarf sem gæti tryggt viðskiptavinum okkar beinan afslátt.</p>
+                <div class="insurance-badge">🛡️ Tryggingavottun innifalin í Fullvernd-áskrift</div>
+            </div>
+            <div style="font-size:3rem; opacity:0.3; line-height:1;">🏦</div>
+        </div>
+    </div>
+</section>
+
+<footer class="foot">
+    © 2026 Bláberg ehf. &nbsp;|&nbsp; <a href="https://blaberg.is">Verslun</a> &nbsp;|&nbsp; <a href="mailto:blaberg@blaberg.is">blaberg@blaberg.is</a> &nbsp;|&nbsp; <a href="tel:5466200">546-6200</a>
+    <br><span style="opacity:0.5; font-size:0.75rem;">Öll verð eru birt án virðisaukaskatts.</span>
+</footer>
+
+<script>
+const state = {
+    useCase: null,
+    door: 2, motion: 1, smoke: 1, multi: 0, cam: 0, siren: 0, remote: 1,
+    has4g: false,
+    locations: [{ name: 'Staðsetning 1' }],
+    plan: 'free',
+    install: false,
+    vidhald: false,
+};
+
+const P = {
+    hub: 19990,
+    door: 4990,
+    motion: 5990,
+    smoke: 7990,
+    multi: 9990,
+    cam: 12990,
+    siren: 6990,
+    remote: 3990,
+    hneta4g: 14990,
+    install: 19990,
+    planFree: 0,
+    planPremium: 3900,
+    vidhald: 18000,
+};
+
+const useCasePresets = {
+    ibud:       { door: 2, motion: 1, smoke: 1, multi: 0, cam: 1, siren: 0, remote: 1, has4g: false },
+    einbyli:    { door: 4, motion: 2, smoke: 2, multi: 1, cam: 1, siren: 0, remote: 1, has4g: false },
+    sumar:      { door: 3, motion: 1, smoke: 1, multi: 1, cam: 1, siren: 0, remote: 1, has4g: true },
+    fyrirtaeki: { door: 6, motion: 4, smoke: 2, multi: 1, cam: 2, siren: 1, remote: 2, has4g: false },
+};
+
+const fmt = n => n.toLocaleString('is-IS') + ' kr';
+
+function selectUseCase(uc) {
+    state.useCase = uc;
+    const p = useCasePresets[uc];
+    Object.keys(p).forEach(k => { state[k] = p[k]; });
+    // Update sliders
+    const sliders = { door: 'door-slider', motion: 'motion-slider', smoke: 'smoke-slider', multi: 'multi-slider', cam: 'cam-slider', siren: 'siren-slider', remote: 'remote-slider' };
+    Object.entries(sliders).forEach(([k, id]) => {
+        document.getElementById(id).value = state[k];
+        document.getElementById(id.replace('-slider', '-val')).textContent = state[k];
+    });
+    document.getElementById('4g-sw').classList.toggle('on', state.has4g);
+    document.querySelectorAll('.usecase-card').forEach(c => c.classList.remove('selected'));
+    document.querySelector(`[data-uc="${uc}"]`).classList.add('selected');
+    render();
+}
+
+function calc() {
+    const locs = state.locations.length;
+    const hubTotal = P.hub * locs;
+    const doorTotal = state.door * P.door;
+    const motionTotal = state.motion * P.motion;
+    const smokeTotal = state.smoke * P.smoke;
+    const multiTotal = state.multi * P.multi;
+    const camTotal = state.cam * P.cam;
+    const sirenTotal = state.siren * P.siren;
+    const remoteTotal = state.remote * P.remote;
+    const hnetaTotal = state.has4g ? P.hneta4g * locs : 0;
+    const installTotal = state.install ? P.install * locs : 0;
+    const deviceTotal = doorTotal + motionTotal + smokeTotal + multiTotal + camTotal + sirenTotal + remoteTotal;
+    const oneTime = hubTotal + deviceTotal + hnetaTotal + installTotal;
+    const sub = state.plan === 'premium' ? P.planPremium : 0;
+    const subTotal = sub * locs;
+    let moAddons = 0;
+    if (state.vidhald) moAddons += Math.round(P.vidhald / 12) * locs;
+    const moTotal = subTotal + moAddons;
+    const totalSensors = state.door + state.motion + state.smoke + state.multi;
+    return { locs, hubTotal, doorTotal, motionTotal, smokeTotal, multiTotal, camTotal, sirenTotal, remoteTotal, hnetaTotal, installTotal, deviceTotal, oneTime, sub, subTotal, moAddons, moTotal, totalSensors };
+}
+
+function renderLocations() {
+    const g = document.getElementById('locations-grid');
+    g.innerHTML = state.locations.map((loc, i) => `
+        <div class="loc-card">
+            <div>
+                <div class="loc-name">${loc.name}</div>
+                <div class="loc-sub">1 öryggisstöð${state.has4g ? ' + 4G hneta' : ''} · ${calc().totalSensors} skynjurar</div>
+            </div>
+            ${state.locations.length > 1 ? `<button class="loc-remove" data-i="${i}">×</button>` : ''}
+        </div>`).join('');
+    g.querySelectorAll('.loc-remove').forEach(btn => {
+        btn.onclick = e => { e.stopPropagation(); state.locations.splice(+btn.dataset.i, 1); render(); };
+    });
+}
+
+function render() {
+    const d = calc();
+    renderLocations();
+
+    // Diagram
+    const dEl = document.getElementById('diagram');
+    let sensorCounts = [];
+    if (state.door > 0) sensorCounts.push(`${state.door}× hurðarskynjari`);
+    if (state.motion > 0) sensorCounts.push(`${state.motion}× hreyfiskynjari`);
+    if (state.smoke > 0) sensorCounts.push(`${state.smoke}× reykskynjari`);
+    if (state.multi > 0) sensorCounts.push(`${state.multi}× 5-í-1 skynjari`);
+    if (state.cam > 0) sensorCounts.push(`${state.cam}× myndavél`);
+    if (state.siren > 0) sensorCounts.push(`${state.siren}× sírena`);
+    const sensorLabel = sensorCounts.join(' · ') || 'Engir skynjurar';
+    const connLabel = state.has4g ? '4G Hneta → Internet' : 'WiFi → Internet';
+
+    dEl.innerHTML = `
+        <div class="d-box sensor" style="font-size:0.8rem; max-width:300px;">${sensorLabel}</div>
+        <div class="d-conn"></div>
+        <div class="d-box hub">Öryggisstöð<div style="font-size:0.7rem;opacity:0.7;margin-top:0.2rem;">97dB innbyggð sírena${state.remote > 0 ? ' · ' + state.remote + '× fjarstýring' : ''}</div></div>
+        <div class="d-conn"></div>
+        <div class="d-cloud">🌐 ${connLabel}</div>
+        <div class="d-conn"></div>
+        <div class="d-cloud">📱 DreamCatcher App → Tilkynningar</div>
+    `;
+
+    // Plan note
+    const pn = document.getElementById('plan-note');
+    if (state.plan === 'premium' && d.locs > 1) {
+        pn.textContent = `${fmt(d.sub)} × ${d.locs} staðsetningar = ${fmt(d.subTotal)} / mánuð`;
+    } else if (state.plan === 'premium') {
+        pn.textContent = 'Tryggingavottun og forgangsaðstoð innifalin.';
+    } else {
+        pn.textContent = 'Engin mánaðarleg áskrift. App-tilkynningar innifaldar.';
+    }
+
+    // Summary
+    const sB = document.getElementById('sum-body');
+    let h = '';
+    h += sli(`${d.locs > 1 ? d.locs + '× ' : ''}Öryggisstöð`, fmt(d.hubTotal));
+    if (state.door > 0) h += sli(`${state.door}× Hurðar/gluggaskynjarar`, fmt(d.doorTotal));
+    if (state.motion > 0) h += sli(`${state.motion}× Hreyfiskynjarar`, fmt(d.motionTotal));
+    if (state.smoke > 0) h += sli(`${state.smoke}× Reykskynjari`, fmt(d.smokeTotal));
+    if (state.multi > 0) h += sli(`${state.multi}× 5-í-1 Skynjari`, fmt(d.multiTotal));
+    if (state.cam > 0) h += sli(`${state.cam}× WiFi Myndavél`, fmt(d.camTotal));
+    if (state.siren > 0) h += sli(`${state.siren}× Auka sírena`, fmt(d.sirenTotal));
+    if (state.remote > 0) h += sli(`${state.remote}× Fjarstýringar`, fmt(d.remoteTotal));
+    if (state.has4g) h += sli(`${d.locs > 1 ? d.locs + '× ' : ''}4G Hneta`, fmt(d.hnetaTotal));
+    if (state.install) h += sli(`Uppsetning${d.locs > 1 ? ' (' + d.locs + '×)' : ''}`, fmt(d.installTotal));
+    h += `<div class="sli total"><span class="l">Samtals eingreiðsla</span><span class="a">${fmt(d.oneTime)}</span></div>`;
+    h += `<div style="height:0.4rem"></div>`;
+    if (state.plan === 'premium') {
+        h += `<div class="sli mo"><span class="l">Fullvernd áskrift${d.locs > 1 ? ' (' + d.locs + '×)' : ''}</span><span class="a">${fmt(d.subTotal)}/mán</span></div>`;
+    } else {
+        h += `<div class="sli mo"><span class="l">Engin mánaðarleg áskrift</span><span class="a">0 kr/mán</span></div>`;
+    }
+    if (state.vidhald) h += sli(`Viðhaldssamningur${d.locs > 1 ? ' (' + d.locs + '×)' : ''}`, fmt(Math.round(P.vidhald / 12) * d.locs) + '/mán');
+    if ((state.vidhald || d.locs > 1) && d.moTotal > 0) {
+        h += `<div class="sli mo"><span class="l">Samtals mánaðarlegt</span><span class="a">${fmt(d.moTotal)}/mán</span></div>`;
+    }
+    h += `<div class="disclaimer">Öll verð birt án virðisaukaskatts. Verð á búnaði getur breyst.</div>`;
+    sB.innerHTML = h;
+
+    // Email CTA
+    const planName = state.plan === 'premium' ? 'Fullvernd (3.900 kr/mán)' : 'Sjálfvirkt (engin áskrift)';
+    const locsText = state.locations.map(l => l.name).join(', ');
+    const body = encodeURIComponent(
+        `Sæl!\n\nÉg hef áhuga á öryggiskerfi frá Bláberg:\n\n` +
+        `• ${d.locs} staðsetning${d.locs > 1 ? 'ar' : ''}: ${locsText}\n` +
+        `• ${state.door} hurðar/gluggaskynjarar\n` +
+        `• ${state.motion} hreyfiskynjarar\n` +
+        `• ${state.smoke} reykskynjari\n` +
+        (state.multi > 0 ? `• ${state.multi} fjölnotaskynjarar (5-í-1)\n` : '') +
+        (state.cam > 0 ? `• ${state.cam} WiFi myndavélar\n` : '') +
+        (state.siren > 0 ? `• ${state.siren} auka sírenur\n` : '') +
+        (state.has4g ? `• 4G hneta\n` : '') +
+        `• Áskrift: ${planName}\n` +
+        (state.install ? `• Uppsetning innifalin\n` : `• Sjáum sjálf um uppsetningu\n`) +
+        (state.vidhald ? `• Viðhaldssamningur\n` : '') +
+        `\nÁætluð eingreiðsla: ${fmt(d.oneTime)}\n\n` +
+        `Vinsamlegast sendið nákvæmt tilboð.\n\nKveðja`
+    );
+    document.getElementById('cta-btn').href = `mailto:blaberg@blaberg.is?subject=${encodeURIComponent('Öryggiskerfi fyrirspurn — ' + d.totalSensors + ' skynjurar')}&body=${body}`;
+}
+
+function sli(l, a) { return `<div class="sli"><span class="l">${l}</span><span class="a">${a}</span></div>`; }
+
+// Events — sliders
+const sliderMap = [
+    ['door-slider', 'door-val', 'door'],
+    ['motion-slider', 'motion-val', 'motion'],
+    ['smoke-slider', 'smoke-val', 'smoke'],
+    ['multi-slider', 'multi-val', 'multi'],
+    ['cam-slider', 'cam-val', 'cam'],
+    ['siren-slider', 'siren-val', 'siren'],
+    ['remote-slider', 'remote-val', 'remote'],
+];
+sliderMap.forEach(([sid, vid, key]) => {
+    document.getElementById(sid).oninput = function() {
+        state[key] = +this.value;
+        document.getElementById(vid).textContent = state[key];
+        state.useCase = null;
+        document.querySelectorAll('.usecase-card').forEach(c => c.classList.remove('selected'));
+        render();
+    };
+});
+
+// Events — toggles
+document.getElementById('4g-toggle').onclick = () => { state.has4g = !state.has4g; document.getElementById('4g-sw').classList.toggle('on', state.has4g); render(); };
+document.getElementById('install-toggle').onclick = () => { state.install = !state.install; document.getElementById('install-sw').classList.toggle('on', state.install); render(); };
+document.getElementById('addon-vidhald').onclick = () => { state.vidhald = !state.vidhald; document.getElementById('vidhald-sw').classList.toggle('on', state.vidhald); render(); };
+
+// Events — plans
+document.getElementById('plan-free').onclick = () => { state.plan = 'free'; document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected')); document.getElementById('plan-free').classList.add('selected'); render(); };
+document.getElementById('plan-premium').onclick = () => { state.plan = 'premium'; document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected')); document.getElementById('plan-premium').classList.add('selected'); render(); };
+
+// Events — locations
+document.getElementById('add-loc').onclick = () => { state.locations.push({ name: 'Staðsetning ' + (state.locations.length + 1) }); render(); };
+
+render();
+</script>
+</body>
+</html>
